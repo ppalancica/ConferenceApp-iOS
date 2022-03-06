@@ -13,19 +13,26 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             List(rooms) { room in
-                HStack {
-                    Image(systemName: "photo") // room.thumnail
-                        .cornerRadius(8)
-                    VStack(alignment: .leading) {
-                        Text(room.name)
-                        Text("\(room.capacity) people")
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
-                    }
-                }
+                RoomCell(room: room)
             }
             .navigationBarTitle(Text("Rooms"))
         }
+    }
+}
+
+struct RoomCell: View {
+    let room: Room
+    var body: some View {
+        return NavigationLink(destination: Text(room.name)) {
+            Image(systemName: "photo") // room.thumnail
+                .cornerRadius(8)
+            VStack(alignment: .leading) {
+                Text(room.name)
+                Text("\(room.capacity) people")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+            }
+        }                    
     }
 }
 
