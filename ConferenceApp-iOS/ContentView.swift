@@ -23,8 +23,8 @@ struct ContentView: View {
 struct RoomCell: View {
     let room: Room
     var body: some View {
-        return NavigationLink(destination: Text(room.name)) {
-            Image(systemName: "photo") // room.thumnail
+        return NavigationLink(destination: RoomDetail(room: room)) {
+            Image(room.imageName) // Image(systemName: "photo")
                 .cornerRadius(8)
             VStack(alignment: .leading) {
                 Text(room.name)
