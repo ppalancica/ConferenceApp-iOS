@@ -17,20 +17,36 @@ struct ContentView: View {
 //                RoomCell(room: room)
 //            }
             List {
-                Button(action: addRoom) {
-                    Text("Add Room")
+                Section {
+                    Button(action: addRoom) {
+                        Text("Add Room")
+                    }
                 }
-                ForEach(store.rooms) { room in
-                    RoomCell(room: room)
+                Section {
+                    ForEach(store.rooms) { room in
+                        RoomCell(room: room)
+                    }
+                    .onDelete(perform: delete)
+                    .onMove(perform: move)
                 }
             }
             .navigationBarTitle(Text("Rooms"))
+            .navigationBarItems(trailing: EditButton())
+            .listStyle(.grouped)
         }
     }
     
     // Still issues
     func addRoom() {
         store.rooms.append(Room(name: "Hall 2", capacity: 2000))
+    }
+    
+    func delete(at offsets: IndexSet) {
+        store.rooms.remove(atOffsets: offsets)
+    }
+    
+    func move(from source: IndexSet, to destination: Int) {
+        store.rooms.move(fromOffsets: source, toOffset: destination)
     }
 }
 
@@ -53,6 +69,15 @@ struct RoomCell: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         //ContentView(rooms: testData)
-        ContentView(store: RoomStore(rooms: testData))
+//        ContentView(store: RoomStore(rooms: testData))
+        Group {
+            ContentView(store: RoomStore(rooms: testData))
+            
+            ContentView(store: RoomStore(rooms: testData))
+                .environment(\.sizeCategory, .extraExtraExtraLarge)
+            
+            ContentView(store: RoomStore(rooms: testData))
+                .environment(\.colorScheme, .dark)
+        }
     }
 }
