@@ -8,15 +8,29 @@
 import SwiftUI
 
 struct ContentView: View {
-    var rooms: [Room] = []
+    //var rooms: [Room] = []
+    @ObservedObject var store = RoomStore()
     
     var body: some View {
         NavigationView {
-            List(rooms) { room in
-                RoomCell(room: room)
+//            List(store.rooms) { room in
+//                RoomCell(room: room)
+//            }
+            List {
+                Button(action: addRoom) {
+                    Text("Add Room")
+                }
+                ForEach(store.rooms) { room in
+                    RoomCell(room: room)
+                }
             }
             .navigationBarTitle(Text("Rooms"))
         }
+    }
+    
+    // Still issues
+    func addRoom() {
+        store.rooms.append(Room(name: "Hall 2", capacity: 2000))
     }
 }
 
@@ -38,6 +52,7 @@ struct RoomCell: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(rooms: testData)
+        //ContentView(rooms: testData)
+        ContentView(store: RoomStore(rooms: testData))
     }
 }
